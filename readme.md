@@ -1,3 +1,41 @@
+# @vuduc0801/react-native-bottom-sheet
+
+Imperative `BottomSheetProvider` / `useBottomSheet()` wrapper around [@gorhom/bottom-sheet](https://github.com/gorhom/react-native-bottom-sheet) v5.
+
+## Installation
+
+`@gorhom/bottom-sheet`, `react-native-reanimated` and `react-native-gesture-handler` are **peer dependencies** (so your app controls their versions):
+
+```bash
+npm install @vuduc0801/react-native-bottom-sheet @gorhom/bottom-sheet react-native-reanimated react-native-gesture-handler
+```
+
+Wrap your app (inside `GestureHandlerRootView`):
+
+```tsx
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { BottomSheetProvider } from '@vuduc0801/react-native-bottom-sheet'
+
+<GestureHandlerRootView style={{ flex: 1 }}>
+  <BottomSheetProvider>{children}</BottomSheetProvider>
+</GestureHandlerRootView>
+```
+
+## API
+
+`useBottomSheet()` returns:
+
+| Method | Description |
+| --- | --- |
+| `expand(options)` | Presents the sheet. `options` = `{ children } & BottomSheetProps` from @gorhom (e.g. `snapPoints`, `enableDynamicSizing`, `onDismiss`, `backgroundStyle`…). `enableDynamicSizing` defaults to `true`. |
+| `collapse()` | Dismisses the sheet. |
+| `context.open({ name, inputProps, options? })` | Presents a component registered via `<BottomSheetProvider components={{ name: <Comp /> }}>`, cloned with `inputProps`. |
+
+## Changelog
+
+- **3.0.0** – `@gorhom/bottom-sheet` (>=5), `react-native-reanimated` (>=3.16) and `react-native-gesture-handler` (>=2.16.1) moved to peer dependencies; removed unused `react-native-safe-area-context` dependency; all `BottomSheetProps` passed to `expand()` are forwarded to the sheet; context value is memoized; build runs automatically on `npm pack`/`publish`.
+- **2.0.0** – @gorhom/bottom-sheet v5, React 19.
+
 # Bottom Sheet Usage Documentation
 
 This document explains how the bottom sheet is integrated and utilized within the `Select` component in the project. It covers configuration, expansion, and item selection logic.

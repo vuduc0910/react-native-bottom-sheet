@@ -1,11 +1,12 @@
 {
   "name": "@vuduc0801/react-native-bottom-sheet",
-  "description": "Build bottom sheet for react native",
-  "version": "2.0.0",
+  "description": "Imperative bottom sheet provider/hook for React Native, built on @gorhom/bottom-sheet v5",
+  "version": "3.0.0",
   "main": "./dist/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "source": "src/index.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": {
@@ -19,30 +20,36 @@
     }
   },
   "scripts": {
-    "biome:check": "biome check --write",
     "build": "tsup",
-    "build:watch": "tsup --watch ./src"
+    "build:watch": "tsup --watch ./src",
+    "typecheck": "tsc --noEmit",
+    "biome:check": "biome check --write",
+    "prepack": "npm run build"
   },
   "keywords": [
     "react-native",
     "bottom-sheet",
     "ui"
   ],
-  "author": "",
+  "author": "vuduc0801",
   "license": "ISC",
   "peerDependencies": {
+    "@gorhom/bottom-sheet": ">=5.0.0",
     "react": "^18.2.0 || ^19.0.0",
-    "react-native": ">=0.70.0"
-  },
-  "dependencies": {
-    "@gorhom/bottom-sheet": "^5.2.6",
-    "react-native-safe-area-context": "^5.6.1"
+    "react-native": ">=0.70.0",
+    "react-native-gesture-handler": ">=2.16.1",
+    "react-native-reanimated": ">=3.16.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "react": "^19.0.0",
+    "@gorhom/bottom-sheet": "5.2.14",
+    "@types/react": "^19.2.0",
+    "react": "19.2.3",
+    "react-native": "0.86.2",
+    "react-native-gesture-handler": "~2.32.0",
+    "react-native-reanimated": "4.5.1",
+    "react-native-worklets": "0.10.1",
     "tsup": "^8.5.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.9.3"
   },
   "files": [
     "dist"
