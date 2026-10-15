@@ -23,6 +23,55 @@ import { BottomSheetProvider } from '@vuduc0801/react-native-bottom-sheet'
 
 ## API
 
+### Provider defaults and handle colors
+
+Use `defaultOptions` to configure all sheets. These defaults also apply to registered components opened with `context.open()`.
+Each call to `expand()` or `context.open()` can override them. Style properties are merged, with per-sheet values taking precedence.
+Changing the provider defaults updates an already open sheet, for example when switching themes.
+
+```tsx
+<BottomSheetProvider
+  defaultOptions={{
+    backgroundStyle: { backgroundColor: '#101116' },
+    handleStyle: { backgroundColor: '#101116', borderTopLeftRadius: 16, borderTopRightRadius: 16 },
+    handleIndicatorStyle: { backgroundColor: '#FFFFFF' },
+  }}
+>
+  {children}
+</BottomSheetProvider>
+```
+
+`handleStyle` controls the area behind the drag handle; `handleIndicatorStyle` controls the small bar itself.
+Both can also be set directly in `expand({ handleStyle, handleIndicatorStyle, children })`.
+
+### Horizontal content
+
+The sheet pan gesture defaults to `activeOffsetY: [-10, 10]` and `failOffsetX: [-10, 10]` so horizontal swipes can go to the content.
+Use the gesture-handler-backed horizontal components inside the sheet, especially on Android. Keep their width constrained by the sheet;
+use `contentContainerStyle` for spacing between cards. No fixed content height is required for dynamic sizing.
+
+```tsx
+import { BottomSheetHorizontalScrollView, useBottomSheet } from '@vuduc0801/react-native-bottom-sheet'
+
+const sheet = useBottomSheet()
+
+sheet.expand({
+  children: (
+    <BottomSheetHorizontalScrollView
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{ gap: 12, paddingHorizontal: 16, paddingVertical: 20 }}
+    >
+      {tiers.map(tier => <TierCard key={tier.id} tier={tier} />)}
+    </BottomSheetHorizontalScrollView>
+  ),
+})
+```
+
+For virtualized lists, use `BottomSheetHorizontalFlatList` with `data` and `renderItem`; item types and list refs are preserved.
+Both components always scroll horizontally and default to `nestedScrollEnabled` and `disallowInterruption`.
+For a custom gesture setup, override `activeOffsetY` / `failOffsetX` in the provider defaults or individual sheet options.
+See [Gorhom's gesture troubleshooting](https://gorhom.dev/react-native-bottom-sheet/troubleshooting).
+
 `useBottomSheet()` returns:
 
 | Method | Description |
@@ -33,6 +82,7 @@ import { BottomSheetProvider } from '@vuduc0801/react-native-bottom-sheet'
 
 ## Changelog
 
+- **3.1.0** – Added provider-wide `defaultOptions` (including handle/background colors), merged per-sheet styles, horizontal-friendly pan defaults, and gesture-handler-backed `BottomSheetHorizontalScrollView` / `BottomSheetHorizontalFlatList` with forwarded refs.
 - **3.0.0** – `@gorhom/bottom-sheet` (>=5), `react-native-reanimated` (>=3.16) and `react-native-gesture-handler` (>=2.16.1) moved to peer dependencies; removed unused `react-native-safe-area-context` dependency; all `BottomSheetProps` passed to `expand()` are forwarded to the sheet; context value is memoized; build runs automatically on `npm pack`/`publish`.
 - **2.0.0** – @gorhom/bottom-sheet v5, React 19.
 

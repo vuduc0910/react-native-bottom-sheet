@@ -16,6 +16,8 @@ export type BottomSheetOptions = {
 const DEFAULT_OPTIONS: BottomSheetOptions = {
   children: null,
   enableDynamicSizing: true,
+  activeOffsetY: [-10, 10],
+  failOffsetX: [-10, 10],
 }
 
 export type BottomSheetContextOptions = {
@@ -27,6 +29,7 @@ export type BottomSheetContextOptions = {
 export type BottomSheetProviderProps = {
   children: React.ReactNode
   components?: Record<string, React.ReactNode>
+  defaultOptions?: Partial<Omit<BottomSheetOptions, 'children'>>
 }
 
 export type BottomSheetContextValue = {
@@ -46,12 +49,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export function BottomSheetProvider({ children, components }: BottomSheetProviderProps) {
+export function BottomSheetProvider({ children, components, defaultOptions }: BottomSheetProviderProps) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const [options, setOptions] = useState<BottomSheetOptions>(DEFAULT_OPTIONS)
+  const [options, setOptions] = useState<BottomSheetOptions>({ children: null })
 
   const expand = useCallback((opts: BottomSheetOptions) => {
-    setOptions({ ...DEFAULT_OPTIONS, ...opts })
+    setOptions({ ...opts })
     bottomSheetModalRef.current?.present()
   }, [])
 
@@ -69,7 +72,7 @@ export function BottomSheetProvider({ children, components }: BottomSheetProvide
             })
           : undefined
 
-      setOptions({ ...DEFAULT_OPTIONS, ...(opts.options ?? {}), children: clonedElement })
+      setOptions({ ...(opts.options ?? {}), children: clonedElement })
       bottomSheetModalRef.current?.present()
     },
     [components],
@@ -85,7 +88,15 @@ export function BottomSheetProvider({ children, components }: BottomSheetProvide
     [],
   )
 
-  const { children: content, index: _index, ...sheetProps } = options
+  const { children: content, index: _index, ...sheetProps } = {
+    ...DEFAULT_OPTIONS,
+    ...defaultOptions,
+    ...options,
+    style: [defaultOptions?.style, options.style],
+    backgroundStyle: [defaultOptions?.backgroundStyle, options.backgroundStyle],
+    handleStyle: [defaultOptions?.handleStyle, options.handleStyle],
+    handleIndicatorStyle: [defaultOptions?.handleIndicatorStyle, options.handleIndicatorStyle],
+  }
 
   return (
     <BottomSheetContext.Provider value={value}>

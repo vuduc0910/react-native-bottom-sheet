@@ -1,3 +1,5 @@
+export * from './components/BottomSheetHorizontalFlatList'
+export * from './components/BottomSheetHorizontalScrollView'
 export * from './hooks/useBottomSheet'
 export * from './providers/BottomSheetProvider'
 export * from './types/provider'

@@ -1,7 +1,7 @@
 {
   "name": "@vuduc0801/react-native-bottom-sheet",
   "description": "Imperative bottom sheet provider/hook for React Native, built on @gorhom/bottom-sheet v5",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "main": "./dist/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
@@ -10,12 +10,12 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/esm/index.js",
-        "types": "./dist/index.d.mts"
+        "types": "./dist/index.d.mts",
+        "default": "./dist/esm/index.js"
       },
       "require": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       }
     }
   },
